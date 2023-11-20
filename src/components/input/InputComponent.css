@@ -1,0 +1,23 @@
+
+/* Input styles */
+.input-container {
+    display: flex;
+    margin-top: 20px;
+  }
+  
+  .text-input {
+    flex-grow: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-right: 10px;
+  }
+  
+  .send-button {
+    padding: 8px;
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
