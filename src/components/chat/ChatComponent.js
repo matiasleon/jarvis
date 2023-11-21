@@ -8,7 +8,7 @@ import './ChatMessage.css'; // Import the CSS file
 
 const ChatComponent = () => {
   const [messages, setMessages] = useState([
-    { role: 'me', message: "Hello, how are you?" },
+    { role: 'user', message: "Hello, how are you?" },
     { role: 'assistant', message: "Hi there! Im doing well, thanks" },
   ]);
 

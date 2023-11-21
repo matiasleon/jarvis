@@ -1,9 +1,9 @@
-import { GetResponse } from "./openaiService"
-
+const { GetChatHistory } = require('./chatHistory')
+const { GetResponse, BuildUserRoleMessageNode } = require('./openaiService')
 
 const CONTEXT = 'Sos un asistente de mercados de criptomonedas. Se amable.'
 
-// crypot context added
+// create jarvis context with crypto data
 const provideJarvisContext = () => {
 
     const cryptoData = getBitcoinCurrentValue()
@@ -24,11 +24,20 @@ const getBitcoinCurrentValue = () => {
     return cryptoData;
 }
 
-export const Reply = async (message) => {
+const Reply = async (contentMessage) => {
 
-    // identify type of rtopic
-    // build context 
-    // response
+    // jarvis context 
+    const jarvisContext = provideJarvisContext()
 
-    return await GetResponse(provideJarvisContext(), messages);
+    // chats history
+    const chatHistory = GetChatHistory();
+    const messageUserRole = BuildUserRoleMessageNode(contentMessage);
+    const chats = [...chatHistory, messageUserRole]
+
+    console.log(chats);
+
+    return await GetResponse(jarvisContext, chats);
 }
+
+module.exports = {Reply};
+

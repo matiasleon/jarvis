@@ -1,31 +1,35 @@
 
-import { Configuration, OpenAIApi } from "openai";
-const configuration = new Configuration({
-    apiKey: process.env.OPENAI_API_KEY,
-});
-const openai = new OpenAIApi(configuration);
+const openai = require('openai');
 
+openai.apiKey = process.env.OPENAI_API_KEY;
 
-export const GetResponse = async (context, messages) => {
+//  Given { sender: 'me', message: "Hello, how are you?" },
+// return { "role": "system", "content": context}
+const generateContent = (context, messages) => {
+
+    const roleSystem = { "role": "user", "content": context}
+
+    messagesToSend = [messages]
+
+    return [roleSystem, ...messagesToSend]
+}
+
+const GetResponse = async (context, messages) => {
+
+    const content = generateContent(context, messages)
+
+    console.log(content)
 
     let completion = await openai.chat.completions.create({
-        messages: [{ "role": "system", "content": context}],
+        messages: content,
         model: "gpt-3.5-turbo",
     });
 
     console.log(completion.choices[0]);
 }
 
-function generateMessagesToSend(messages) {
+const BuildUserRoleMessageNode = (message)  => {
+    return {"role":"user", "content": message}
+} 
 
-    const roleSystem = { "role": "user", "content": context}
-
-    messagesToSend = []
-
-    return [ roleSystem, ...messagesToSend]
-}
-
-
-//  Given { sender: 'me', message: "Hello, how are you?" },
-// return { "role": "system", "content": context}
-
+module.exports = {BuildUserRoleMessageNode,GetResponse}
